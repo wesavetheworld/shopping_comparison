@@ -24,3 +24,7 @@ Thumbs.db
 ###############################
 /jabber
 /logs
+
+# IDE Files       #
+# #################
+sftp-config.json
