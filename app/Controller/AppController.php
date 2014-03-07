@@ -34,10 +34,12 @@ class AppController extends Controller {
     /**
      * Enable components for all controllers
      */
-	public $components = array('DebugKit.Toolbar');
+	//public $components = array('DebugKit.Toolbar');
 
     /**
      * Set the theme
      */
     public $theme = "Cakestrap";
+
+    public $helpers = array('Time');
 }
