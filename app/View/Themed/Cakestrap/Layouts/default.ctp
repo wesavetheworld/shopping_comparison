@@ -33,11 +33,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
 			echo $this->Html->css('bootstrap');
 			echo $this->Html->css('main');
+			echo $this->Html->css('responsive_tables');
 
 			echo $this->fetch('css');
 			
 			echo $this->Html->script('libs/jquery-1.10.2.min');
 			echo $this->Html->script('libs/bootstrap.min');
+			echo $this->Html->script('responsive_tables');
 			
 			echo $this->fetch('script');
 		?>
