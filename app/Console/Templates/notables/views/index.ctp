@@ -17,32 +17,26 @@
  */
 ?>
 <div id="page-container" class="row">
+	<?php echo "<?php if (!empty(\$sidebar)): ?>"; ?>
 
 	<div id="sidebar" class="col-sm-3">
 		
 		<div class="actions">
 		
 			<ul class="list-group">
-				<li class="list-group-item"><?php echo "<?php echo \$this->Html->link(__('New " . $singularHumanName . "'), array('action' => 'add'), array('class' => '')); ?>"; ?></li>
-<?php
-	$done = array();
-	foreach ($associations as $type => $data) {
-		foreach ($data as $alias => $details) {
-			if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-				echo "\t\t\t\t<li class=\"list-group-item\"><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "'), array('controller' => '{$details['controller']}', 'action' => 'index'), array('class' => '')); ?></li> \n";
-				echo "\t\t\t\t<li class=\"list-group-item\"><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "'), array('controller' => '{$details['controller']}', 'action' => 'add'), array('class' => '')); ?></li> \n";
-				$done[] = $details['controller'];
-			}
-		}
-	}
-?>
+				<?php echo "<?php foreach (\$sidebar as \$link => \$path): ?>"; ?>
+					<li class="list-group-item"><?php echo "<?php echo \$this->Html->link(h(\$link), \$path); ?>"; ?></li>
+				<?php echo "<?php endforeach; ?>"; ?>
 			</ul><!-- /.list-group -->
 			
 		</div><!-- /.actions -->
 		
 	</div><!-- /#sidebar .col-sm-3 -->
+	<?php echo "<?php endif ?>"; ?>
+
+	<?php echo "<?php \$class = empty(\$sidebar) ? 'col-sm-12' : 'col-sm-9'; ?>"; ?>
 	
-	<div id="page-content" class="col-sm-9">
+	<div id="page-content" class='<?php echo "<?php echo \$class; ?>"; ?>'>
 
 		<div class="<?php echo $pluralVar; ?> index">
 		
@@ -52,8 +46,11 @@
 				<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-			<?php foreach ($fields as $field): ?>
-				<?php if ($field == 'id') continue; ?>
+			<?php foreach ($fields as $field):
+				if (in_array($field, array('id','created','modified'))) {
+					continue;
+				}
+			?>
 				<th><?php echo "<?php echo \$this->Paginator->sort('{$field}'); ?>"; ?></th>
 			<?php endforeach; ?>
 						</tr>
@@ -64,7 +61,9 @@
 	echo "\t<tr>\n";
 	$first_column = true;
 	foreach ($fields as $field) {
-		if ($field == 'id') continue;
+		if (in_array($field, array('id','created','modified'))) {
+			continue;
+		}
 		$isKey = false;
 		if (!empty($associations['belongsTo'])) {
 			foreach ($associations['belongsTo'] as $alias => $details) {
@@ -81,7 +80,7 @@
 				$first_column = false;
 			} else {
 				if ($schema[$field]['type'] == 'datetime') {
-					$display = "\$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$modelClass}']['{$field}'])";
+					$display = "\$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$modelClass}']['{$field}'], '')";
 				} else {
 					$display = "h(\${$singularVar}['{$modelClass}']['{$field}'])";
 				}

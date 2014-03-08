@@ -58,6 +58,9 @@
 					<tbody>
 						<?php
 						foreach ($fields as $field) {
+							if ($field == 'id') {
+								continue;
+							}
 							$isKey = false;
 							if (!empty($associations['belongsTo'])) {
 								foreach ($associations['belongsTo'] as $alias => $details) {
@@ -72,9 +75,16 @@
 								}
 							}
 							if ($isKey !== true) {
+								if ($schema[$field]['type'] == 'datetime') {
+									$display = "\$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$modelClass}']['{$field}'], '')";
+								} else {
+									$display = "h(\${$singularVar}['{$modelClass}']['{$field}'])";
+								}
+
 								echo "<tr>";
 								echo "\t\t<td><strong><?php echo __('" . Inflector::humanize($field) . "'); ?></strong></td>\n";
-								echo "\t\t<td>\n\t\t\t<?php echo h(\${$singularVar}['{$modelClass}']['{$field}']); ?>\n\t\t\t&nbsp;\n\t\t</td>\n";
+
+								echo "\t\t<td>\n\t\t\t<?php echo $display; ?>\n\t\t\t&nbsp;\n\t\t</td>\n";
 								echo "</tr>";
 							}
 						}
@@ -121,6 +131,8 @@
 		foreach ($relations as $alias => $details):
 			$otherSingularVar = Inflector::variable($alias);
 			$otherPluralHumanName = Inflector::humanize($details['controller']);
+			$primaryKey = $details['primaryKey'];
+			$controller = $details['controller'];
 			?>
 			
 			<div class="related">
@@ -135,10 +147,14 @@
 								<tr>
 									<?php
 										foreach ($details['fields'] as $field) {
+											if (in_array($field, array('id','created','modified'))) {
+												continue;
+											} elseif (preg_match('/.*_id$/', $field)) {
+												continue;
+											}
 											echo "\t\t<th><?php echo __('" . Inflector::humanize($field) . "'); ?></th>\n";
 										}
 									?>
-									<th class="actions"><?php echo "<?php echo __('Actions'); ?>"; ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -147,15 +163,28 @@
 										\$i = 0;
 										foreach (\${$singularVar}['{$alias}'] as \${$otherSingularVar}): ?>\n";
 										echo "\t\t<tr>\n";
+											$first = true;
 											foreach ($details['fields'] as $field) {
-												echo "\t\t\t<td><?php echo \${$otherSingularVar}['{$field}']; ?></td>\n";
-											}
+												if (in_array($field, array('id','created','modified'))) {
+													continue;
+												} elseif (preg_match('/.*_id$/', $field)) {
+													continue;
+												}
+												echo "\t\t\t<?php if(strtotime(\${$singularVar}['{$alias}'][\$i]['{$field}']) && 1 === preg_match('~[0-9]~', \${$singularVar}['{$alias}'][\$i]['{$field}'])){
+												    \$display = \$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$modelClass}']['{$field}']);\n
+												\t\t\t}else{\n
+												    \t\t\t\t\$display = h(\${$singularVar}['{$alias}'][\$i]['{$field}']);\n
+												\t\t\t} ?>\n";
 
-											echo "\t\t\t<td class=\"actions\">\n";
-											echo "\t\t\t\t<?php echo \$this->Html->link(__('View'), array('controller' => '{$details['controller']}', 'action' => 'view', \${$otherSingularVar}['{$details['primaryKey']}']), array('class' => 'btn btn-default btn-xs')); ?>\n";
-											echo "\t\t\t\t<?php echo \$this->Html->link(__('Edit'), array('controller' => '{$details['controller']}', 'action' => 'edit', \${$otherSingularVar}['{$details['primaryKey']}']), array('class' => 'btn btn-default btn-xs')); ?>\n";
-											echo "\t\t\t\t<?php echo \$this->Form->postLink(__('Delete'), array('controller' => '{$details['controller']}', 'action' => 'delete', \${$otherSingularVar}['{$details['primaryKey']}']), array('class' => 'btn btn-default btn-xs'), __('Are you sure you want to delete # %s?', \${$otherSingularVar}['{$details['primaryKey']}'])); ?>\n";
-											echo "\t\t\t</td>\n";
+												if ($first) {
+													echo "<td><?php echo \$this->Html->link(\$display, array('controller' => '$controller', 'action' => 'view', \${$singularVar}['{$alias}'][\$i]['$primaryKey'])); ?></td>\n";
+												} else {
+													echo "<td><?php echo \$display; ?></td>\n";
+												}
+												
+												$first = false;
+											}
+										echo "<?php \$i++; ?>";
 										echo "\t\t</tr>\n";
 
 								echo "\t<?php endforeach; ?>\n";
