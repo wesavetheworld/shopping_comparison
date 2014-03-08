@@ -41,5 +41,5 @@ class AppController extends Controller {
      */
     public $theme = "Cakestrap";
 
-    public $helpers = array('Time');
+    public $helpers = array('Time', 'Number');
 }

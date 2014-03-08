@@ -112,4 +112,17 @@ class EntriesController extends AppController {
 		}
 		$this->Session->setFlash(__('Entry was not deleted'), 'flash/error');
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	public function beforeFilter() {
+		$this->set('sidebar', array(
+			'New Entry' => '/entries/add/',
+			'List Items' => '/items/',
+			'New Item' => '/items/add/',
+			'List Units' => '/units/',
+			'New Unit' => '/units/add/',
+			'List Stores' => '/stores/',
+			'New Store' => '/stores/add/',
+		));
+	}
+}

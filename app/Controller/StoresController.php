@@ -104,4 +104,14 @@ class StoresController extends AppController {
 		}
 		$this->Session->setFlash(__('Store was not deleted'), 'flash/error');
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	public function beforeFilter()
+	{
+		$this->set('sidebar', array(
+			'New Store' => '/stores/add/',
+			'List Entries' => '/entries/',
+			'New Entry' => '/entries/add/',
+		));
+	}
+}

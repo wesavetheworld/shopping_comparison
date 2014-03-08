@@ -104,4 +104,13 @@ class CategoriesController extends AppController {
 		}
 		$this->Session->setFlash(__('Category was not deleted'), 'flash/error');
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	public function beforeFilter() {
+		$this->set('sidebar', array(
+			'New Category' => '/categories/add/',
+			'List Items' => '/items/',
+			'New Item' => '/items/add/',
+		));
+	}
+}

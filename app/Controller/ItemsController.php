@@ -108,4 +108,16 @@ class ItemsController extends AppController {
 		}
 		$this->Session->setFlash(__('Item was not deleted'), 'flash/error');
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	public function beforeFilter() {
+		$this->set('sidebar', array(
+			'New Item' => '/items/add/',
+			'List Categories' => '/categories/',
+			'New Category' => '/categories/add/',
+			'List Entries' => '/entries/',
+			'New Entry' => '/entries/add/',
+		));
+	}
+
+}

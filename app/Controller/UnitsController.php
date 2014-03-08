@@ -104,4 +104,13 @@ class UnitsController extends AppController {
 		}
 		$this->Session->setFlash(__('Unit was not deleted'), 'flash/error');
 		$this->redirect(array('action' => 'index'));
-	}}
+	}
+
+	public function beforeFilter() {
+		$this->set('sidebar', array(
+			'New Unit' => '/units/add/',
+			'List Entries' => '/entries/',
+			'New Entry' => '/entries/new',
+		));
+	}
+}
