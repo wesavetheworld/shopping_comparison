@@ -75,6 +75,9 @@ CREATE TABLE IF NOT EXISTS items (
   id int(10) NOT NULL AUTO_INCREMENT,
   item varchar(80) NOT NULL,
   category_id int(10) NOT NULL,
+  lowest_price double NULL,
+  highest_price double NULL,
+  last_price_update datetime NULL,
   created datetime NOT NULL,
   modified datetime NOT NULL,
   PRIMARY KEY (id),
@@ -183,7 +186,7 @@ VALUES
 	(97, "Garlic Powder", 16, NOW(), NOW());
 
 -- ---------------------------------------------------
--- Entries
+-- Units
 -- ---------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS units (
@@ -212,6 +215,7 @@ CREATE TABLE IF NOT EXISTS entries (
   item_id int(10) NOT NULL,
   price double NOT NULL,
   quantity int(10) NOT NULL,
+  unit_price double NULL,
   unit_id int(10) NOT NULL,
   store_id int(10) NOT NULL,
   note varchar(255) NULL,
@@ -224,26 +228,26 @@ CREATE TABLE IF NOT EXISTS entries (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO entries
-	(item_id, price, quantity, unit_id, store_id, note, created, modified)
+	(item_id, price, quantity, unit_id, unit_price, store_id, note, created, modified)
 VALUES
-	(1, 1.58, 1, 1, 4,'', NOW(), NOW()),
-	(1, 1.29, 1, 1, 1,'', NOW(), NOW()),
-	(1, 2.89, 1, 1, 3,'', NOW(), NOW()),
-	(2, 1.69, 20, 3, 1,'', NOW(), NOW()),
-	(2, 1.29, 10, 3, 3,'', NOW(), NOW()),
-	(3, 6.59, 13.5, 4, 2,'', NOW(), NOW()),
-	(4, 1.99, 16, 5, 1,'', NOW(), NOW()),
-	(5, 1.79, 7, 5, 7,'', NOW(), NOW()),
-	(6, 6.99, 96, 5, 2,'', NOW(), NOW()),
-	(7, 2.99, 7, 3, 7, "store-brand", NOW(), NOW()),
-	(7, 31.89, 100, 3, 2, "store-brand", NOW(), NOW()),
-	(7, 37.99, 80, 3, 2, "organic", NOW(), NOW()),
-	(8, 3.99, 16, 5, 7,'', NOW(), NOW()),
-	(9, 1.99, 6, 3, 7,'', NOW(), NOW()),
-	(10, .59, 15, 5, 1,'', NOW(), NOW()),
-	(10, 4.69, 180, 5, 2, "12 15 oz cans", NOW(), NOW()),
-	(11, .59, 15, 5, 1,'', NOW(), NOW()),
-	(12, 2.49, 12, 5, 7,'', NOW(), NOW()),
-	(13, 1.69, 32, 5, 1, "organic", NOW(), NOW()),
-	(14, 1.49, 28, 5, 1, "organic", NOW(), NOW()),
-	(14, 7.69, 116, 5, 2, "organic", NOW(), NOW());
+	(1, 1.58, 1, 1, price/quantity, 4,'', NOW(), NOW()),
+	(1, 1.29, 1, 1, price/quantity, 1,'', NOW(), NOW()),
+	(1, 2.89, 1, 1, price/quantity, 3,'', NOW(), NOW()),
+	(2, 1.69, 20, 3, price/quantity, 1,'', NOW(), NOW()),
+	(2, 1.29, 10, 3, price/quantity, 3,'', NOW(), NOW()),
+	(3, 6.59, 13.5, 4, price/quantity, 2,'', NOW(), NOW()),
+	(4, 1.99, 16, 5, price/quantity, 1,'', NOW(), NOW()),
+	(5, 1.79, 7, 5, price/quantity, 7,'', NOW(), NOW()),
+	(6, 6.99, 96, 5, price/quantity, 2,'', NOW(), NOW()),
+	(7, 2.99, 7, 3, price/quantity, 7, "store-brand", NOW(), NOW()),
+	(7, 31.89, 100, 3, price/quantity, 2, "store-brand", NOW(), NOW()),
+	(7, 37.99, 80, 3, price/quantity, 2, "organic", NOW(), NOW()),
+	(8, 3.99, 16, 5, price/quantity, 7,'', NOW(), NOW()),
+	(9, 1.99, 6, 3, price/quantity, 7,'', NOW(), NOW()),
+	(10, .59, 15, 5, price/quantity, 1,'', NOW(), NOW()),
+	(10, 4.69, 180, 5, price/quantity, 2, "12 15 oz cans", NOW(), NOW()),
+	(11, .59, 15, 5, price/quantity, 1,'', NOW(), NOW()),
+	(12, 2.49, 12, 5, price/quantity, 7,'', NOW(), NOW()),
+	(13, 1.69, 32, 5, price/quantity, 1, "organic", NOW(), NOW()),
+	(14, 1.49, 28, 5, price/quantity, 1, "organic", NOW(), NOW()),
+	(14, 7.69, 116, 5, price/quantity, 2, "organic", NOW(), NOW());
