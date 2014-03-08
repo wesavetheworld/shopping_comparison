@@ -48,4 +48,6 @@ class Unit extends AppModel {
 		)
 	);
 
+	public $displayField = 'unit';
+
 }

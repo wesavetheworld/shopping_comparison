@@ -74,4 +74,6 @@ class Item extends AppModel {
 		)
 	);
 
+	public $displayField = 'item';
+
 }
