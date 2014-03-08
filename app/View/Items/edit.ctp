@@ -37,6 +37,15 @@
 					<div class="form-group">
 						<?php echo $this->Form->input('category_id', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
+					<div class="form-group">
+						<?php echo $this->Form->input('lowest_price', array('class' => 'form-control')); ?>
+					</div><!-- .form-group -->
+					<div class="form-group">
+						<?php echo $this->Form->input('highest_price', array('class' => 'form-control')); ?>
+					</div><!-- .form-group -->
+					<div class="form-group">
+						<?php echo $this->Form->input('last_price_update', array('class' => 'form-control')); ?>
+					</div><!-- .form-group -->
 
 					<?php echo $this->Form->submit('Submit', array('class' => 'btn btn-large btn-primary')); ?>
 

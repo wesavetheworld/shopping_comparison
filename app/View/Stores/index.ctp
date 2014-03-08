@@ -1,20 +1,19 @@
 <div id="page-container" class="row">
-
+	<?php if (!empty($sidebar)): ?>
 	<div id="sidebar" class="col-sm-3">
 		
 		<div class="actions">
 		
 			<ul class="list-group">
-				<li class="list-group-item"><?php echo $this->Html->link(__('New Store'), array('action' => 'add'), array('class' => '')); ?></li>
-				<li class="list-group-item"><?php echo $this->Html->link(__('List Entries'), array('controller' => 'entries', 'action' => 'index'), array('class' => '')); ?></li> 
-				<li class="list-group-item"><?php echo $this->Html->link(__('New Entry'), array('controller' => 'entries', 'action' => 'add'), array('class' => '')); ?></li> 
-			</ul><!-- /.list-group -->
+				<?php foreach ($sidebar as $link => $path): ?>					<li class="list-group-item"><?php echo $this->Html->link(h($link), $path); ?></li>
+				<?php endforeach; ?>			</ul><!-- /.list-group -->
 			
 		</div><!-- /.actions -->
 		
 	</div><!-- /#sidebar .col-sm-3 -->
-	
-	<div id="page-content" class="col-sm-9">
+	<?php endif ?>
+	<?php $class = empty($sidebar) ? 'col-sm-12' : 'col-sm-9'; ?>	
+	<div id="page-content" class='<?php echo $class; ?>'>
 
 		<div class="stores index">
 		
@@ -24,10 +23,8 @@
 				<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-															<th><?php echo $this->Paginator->sort('name'); ?></th>
-											<th><?php echo $this->Paginator->sort('location'); ?></th>
-											<th><?php echo $this->Paginator->sort('created'); ?></th>
-											<th><?php echo $this->Paginator->sort('modified'); ?></th>
+							<th><?php echo $this->Paginator->sort('name'); ?></th>
+							<th><?php echo $this->Paginator->sort('location'); ?></th>
 									</tr>
 					</thead>
 					<tbody>
@@ -35,8 +32,6 @@
 	<tr>
 		<td><?php echo $this->Html->link($store['Store']['name'], array('action' => 'view', $store['Store']['id'])); ?>&nbsp;</td>
 		<td><?php echo h($store['Store']['location']);?>&nbsp;</td>
-		<td><?php echo $this->Time->format('F jS, Y h:i A', $store['Store']['created']);?>&nbsp;</td>
-		<td><?php echo $this->Time->format('F jS, Y h:i A', $store['Store']['modified']);?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 					</tbody>

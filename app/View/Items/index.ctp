@@ -1,22 +1,19 @@
 <div id="page-container" class="row">
-
+	<?php if (!empty($sidebar)): ?>
 	<div id="sidebar" class="col-sm-3">
 		
 		<div class="actions">
 		
 			<ul class="list-group">
-				<li class="list-group-item"><?php echo $this->Html->link(__('New Item'), array('action' => 'add'), array('class' => '')); ?></li>
-				<li class="list-group-item"><?php echo $this->Html->link(__('List Categories'), array('controller' => 'categories', 'action' => 'index'), array('class' => '')); ?></li> 
-				<li class="list-group-item"><?php echo $this->Html->link(__('New Category'), array('controller' => 'categories', 'action' => 'add'), array('class' => '')); ?></li> 
-				<li class="list-group-item"><?php echo $this->Html->link(__('List Entries'), array('controller' => 'entries', 'action' => 'index'), array('class' => '')); ?></li> 
-				<li class="list-group-item"><?php echo $this->Html->link(__('New Entry'), array('controller' => 'entries', 'action' => 'add'), array('class' => '')); ?></li> 
-			</ul><!-- /.list-group -->
+				<?php foreach ($sidebar as $link => $path): ?>					<li class="list-group-item"><?php echo $this->Html->link(h($link), $path); ?></li>
+				<?php endforeach; ?>			</ul><!-- /.list-group -->
 			
 		</div><!-- /.actions -->
 		
 	</div><!-- /#sidebar .col-sm-3 -->
-	
-	<div id="page-content" class="col-sm-9">
+	<?php endif ?>
+	<?php $class = empty($sidebar) ? 'col-sm-12' : 'col-sm-9'; ?>	
+	<div id="page-content" class='<?php echo $class; ?>'>
 
 		<div class="items index">
 		
@@ -26,10 +23,11 @@
 				<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-															<th><?php echo $this->Paginator->sort('item'); ?></th>
-											<th><?php echo $this->Paginator->sort('category_id'); ?></th>
-											<th><?php echo $this->Paginator->sort('created'); ?></th>
-											<th><?php echo $this->Paginator->sort('modified'); ?></th>
+							<th><?php echo $this->Paginator->sort('item'); ?></th>
+							<th><?php echo $this->Paginator->sort('category_id'); ?></th>
+							<th><?php echo $this->Paginator->sort('lowest_price'); ?></th>
+							<th><?php echo $this->Paginator->sort('highest_price'); ?></th>
+							<th><?php echo $this->Paginator->sort('last_price_update'); ?></th>
 									</tr>
 					</thead>
 					<tbody>
@@ -37,8 +35,9 @@
 	<tr>
 		<td><?php echo $this->Html->link($item['Item']['item'], array('action' => 'view', $item['Item']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($item['Category']['category'], array('controller' => 'categories', 'action' => 'view', $item['Category']['id'])); ?>&nbsp;</td>
-		<td><?php echo $this->Time->format('F jS, Y h:i A', $item['Item']['created']);?>&nbsp;</td>
-		<td><?php echo $this->Time->format('F jS, Y h:i A', $item['Item']['modified']);?>&nbsp;</td>
+		<td><?php echo h($item['Item']['lowest_price']);?>&nbsp;</td>
+		<td><?php echo h($item['Item']['highest_price']);?>&nbsp;</td>
+		<td><?php echo $this->Time->format('F jS, Y h:i A', $item['Item']['last_price_update'], '');?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 					</tbody>

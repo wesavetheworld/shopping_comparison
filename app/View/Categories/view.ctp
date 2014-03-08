@@ -28,24 +28,19 @@
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered">
 					<tbody>
-						<tr>		<td><strong><?php echo __('Id'); ?></strong></td>
-		<td>
-			<?php echo h($category['Category']['id']); ?>
-			&nbsp;
-		</td>
-</tr><tr>		<td><strong><?php echo __('Category'); ?></strong></td>
+						<tr>		<td><strong><?php echo __('Category'); ?></strong></td>
 		<td>
 			<?php echo h($category['Category']['category']); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Created'); ?></strong></td>
 		<td>
-			<?php echo h($category['Category']['created']); ?>
+			<?php echo $this->Time->format('F jS, Y h:i A', $category['Category']['created'], ''); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Modified'); ?></strong></td>
 		<td>
-			<?php echo h($category['Category']['modified']); ?>
+			<?php echo $this->Time->format('F jS, Y h:i A', $category['Category']['modified'], ''); ?>
 			&nbsp;
 		</td>
 </tr>					</tbody>
@@ -65,12 +60,10 @@
 						<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
-											<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Item'); ?></th>
-		<th><?php echo __('Category Id'); ?></th>
-		<th><?php echo __('Created'); ?></th>
-		<th><?php echo __('Modified'); ?></th>
-									<th class="actions"><?php echo __('Actions'); ?></th>
+											<th><?php echo __('Item'); ?></th>
+		<th><?php echo __('Lowest Price'); ?></th>
+		<th><?php echo __('Highest Price'); ?></th>
+		<th><?php echo __('Last Price Update'); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -78,17 +71,43 @@
 										$i = 0;
 										foreach ($category['Item'] as $item): ?>
 		<tr>
-			<td><?php echo $item['id']; ?></td>
-			<td><?php echo $item['item']; ?></td>
-			<td><?php echo $item['category_id']; ?></td>
-			<td><?php echo $item['created']; ?></td>
-			<td><?php echo $item['modified']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'items', 'action' => 'view', $item['id']), array('class' => 'btn btn-default btn-xs')); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'items', 'action' => 'edit', $item['id']), array('class' => 'btn btn-default btn-xs')); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'items', 'action' => 'delete', $item['id']), array('class' => 'btn btn-default btn-xs'), __('Are you sure you want to delete # %s?', $item['id'])); ?>
-			</td>
-		</tr>
+			<?php if(strtotime($category['Item'][$i]['item']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['item'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['item']);
+
+															}else{
+
+												    				$display = h($category['Item'][$i]['item']);
+
+															} ?>
+<td><?php echo $this->Html->link($display, array('controller' => 'items', 'action' => 'view', $category['Item'][$i]['id'])); ?></td>
+			<?php if(strtotime($category['Item'][$i]['lowest_price']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['lowest_price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['lowest_price']);
+
+															}else{
+
+												    				$display = h($category['Item'][$i]['lowest_price']);
+
+															} ?>
+<td><?php echo $display; ?></td>
+			<?php if(strtotime($category['Item'][$i]['highest_price']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['highest_price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['highest_price']);
+
+															}else{
+
+												    				$display = h($category['Item'][$i]['highest_price']);
+
+															} ?>
+<td><?php echo $display; ?></td>
+			<?php if(strtotime($category['Item'][$i]['last_price_update']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['last_price_update'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['last_price_update']);
+
+															}else{
+
+												    				$display = h($category['Item'][$i]['last_price_update']);
+
+															} ?>
+<td><?php echo $display; ?></td>
+<?php $i++; ?>		</tr>
 	<?php endforeach; ?>
 							</tbody>
 						</table><!-- /.table table-striped table-bordered -->

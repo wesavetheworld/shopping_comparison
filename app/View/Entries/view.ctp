@@ -32,14 +32,9 @@
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered">
 					<tbody>
-						<tr>		<td><strong><?php echo __('Id'); ?></strong></td>
+						<tr>		<td><strong><?php echo __('Item'); ?></strong></td>
 		<td>
-			<?php echo h($entry['Entry']['id']); ?>
-			&nbsp;
-		</td>
-</tr><tr>		<td><strong><?php echo __('Item'); ?></strong></td>
-		<td>
-			<?php echo $this->Html->link($entry['Item']['id'], array('controller' => 'items', 'action' => 'view', $entry['Item']['id']), array('class' => '')); ?>
+			<?php echo $this->Html->link($entry['Item']['item'], array('controller' => 'items', 'action' => 'view', $entry['Item']['id']), array('class' => '')); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Price'); ?></strong></td>
@@ -52,9 +47,14 @@
 			<?php echo h($entry['Entry']['quantity']); ?>
 			&nbsp;
 		</td>
+</tr><tr>		<td><strong><?php echo __('Unit Price'); ?></strong></td>
+		<td>
+			<?php echo h($entry['Entry']['unit_price']); ?>
+			&nbsp;
+		</td>
 </tr><tr>		<td><strong><?php echo __('Unit'); ?></strong></td>
 		<td>
-			<?php echo $this->Html->link($entry['Unit']['id'], array('controller' => 'units', 'action' => 'view', $entry['Unit']['id']), array('class' => '')); ?>
+			<?php echo $this->Html->link($entry['Unit']['unit'], array('controller' => 'units', 'action' => 'view', $entry['Unit']['id']), array('class' => '')); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Store'); ?></strong></td>
@@ -69,12 +69,12 @@
 		</td>
 </tr><tr>		<td><strong><?php echo __('Created'); ?></strong></td>
 		<td>
-			<?php echo h($entry['Entry']['created']); ?>
+			<?php echo $this->Time->format('F jS, Y h:i A', $entry['Entry']['created'], ''); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Modified'); ?></strong></td>
 		<td>
-			<?php echo h($entry['Entry']['modified']); ?>
+			<?php echo $this->Time->format('F jS, Y h:i A', $entry['Entry']['modified'], ''); ?>
 			&nbsp;
 		</td>
 </tr>					</tbody>

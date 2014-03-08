@@ -43,6 +43,9 @@
 						<?php echo $this->Form->input('quantity', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
 					<div class="form-group">
+						<?php echo $this->Form->input('unit_price', array('class' => 'form-control')); ?>
+					</div><!-- .form-group -->
+					<div class="form-group">
 						<?php echo $this->Form->input('unit_id', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
 					<div class="form-group">
