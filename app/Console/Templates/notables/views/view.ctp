@@ -159,8 +159,8 @@
 							</thead>
 							<tbody>
 								<?php
+								echo "<?php \$i = 0; ?>";
 								echo "\t<?php
-										\$i = 0;
 										foreach (\${$singularVar}['{$alias}'] as \${$otherSingularVar}): ?>\n";
 										echo "\t\t<tr>\n";
 											$first = true;
@@ -170,8 +170,8 @@
 												} elseif (preg_match('/.*_id$/', $field)) {
 													continue;
 												}
-												echo "\t\t\t<?php if(strtotime(\${$singularVar}['{$alias}'][\$i]['{$field}']) && 1 === preg_match('~[0-9]~', \${$singularVar}['{$alias}'][\$i]['{$field}'])){
-												    \$display = \$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$modelClass}']['{$field}']);\n
+												echo "\t\t\t<?php if(strtotime(\${$singularVar}['{$alias}'][\$i]['{$field}']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', \${$singularVar}['{$alias}'][\$i]['{$field}'])){
+												    \$display = \$this->Time->format('F jS, Y h:i A', \${$singularVar}['{$alias}'][\$i]['{$field}']);\n
 												\t\t\t}else{\n
 												    \t\t\t\t\$display = h(\${$singularVar}['{$alias}'][\$i]['{$field}']);\n
 												\t\t\t} ?>\n";
@@ -184,9 +184,8 @@
 												
 												$first = false;
 											}
-										echo "<?php \$i++; ?>";
 										echo "\t\t</tr>\n";
-
+										echo "<?php \$i++; ?>";
 								echo "\t<?php endforeach; ?>\n";
 								?>
 							</tbody>
