@@ -72,12 +72,11 @@
 								</tr>
 							</thead>
 							<tbody>
-									<?php
-										$i = 0;
+								<?php $i = 0; ?>	<?php
 										foreach ($store['Entry'] as $entry): ?>
 		<tr>
-			<?php if(strtotime($store['Entry'][$i]['price']) && 1 === preg_match('~[0-9]~', $store['Entry'][$i]['price'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $store['Store']['price']);
+			<?php if(strtotime($store['Entry'][$i]['price']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $store['Entry'][$i]['price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $store['Entry'][$i]['price']);
 
 															}else{
 
@@ -85,8 +84,8 @@
 
 															} ?>
 <td><?php echo $this->Html->link($display, array('controller' => 'entries', 'action' => 'view', $store['Entry'][$i]['id'])); ?></td>
-			<?php if(strtotime($store['Entry'][$i]['quantity']) && 1 === preg_match('~[0-9]~', $store['Entry'][$i]['quantity'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $store['Store']['quantity']);
+			<?php if(strtotime($store['Entry'][$i]['quantity']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $store['Entry'][$i]['quantity'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $store['Entry'][$i]['quantity']);
 
 															}else{
 
@@ -94,8 +93,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-			<?php if(strtotime($store['Entry'][$i]['unit_price']) && 1 === preg_match('~[0-9]~', $store['Entry'][$i]['unit_price'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $store['Store']['unit_price']);
+			<?php if(strtotime($store['Entry'][$i]['unit_price']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $store['Entry'][$i]['unit_price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $store['Entry'][$i]['unit_price']);
 
 															}else{
 
@@ -103,8 +102,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-			<?php if(strtotime($store['Entry'][$i]['note']) && 1 === preg_match('~[0-9]~', $store['Entry'][$i]['note'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $store['Store']['note']);
+			<?php if(strtotime($store['Entry'][$i]['note']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $store['Entry'][$i]['note'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $store['Entry'][$i]['note']);
 
 															}else{
 
@@ -112,8 +111,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-<?php $i++; ?>		</tr>
-	<?php endforeach; ?>
+		</tr>
+<?php $i++; ?>	<?php endforeach; ?>
 							</tbody>
 						</table><!-- /.table table-striped table-bordered -->
 					</div><!-- /.table-responsive -->

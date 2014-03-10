@@ -67,12 +67,11 @@
 								</tr>
 							</thead>
 							<tbody>
-									<?php
-										$i = 0;
+								<?php $i = 0; ?>	<?php
 										foreach ($category['Item'] as $item): ?>
 		<tr>
-			<?php if(strtotime($category['Item'][$i]['item']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['item'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['item']);
+			<?php if(strtotime($category['Item'][$i]['item']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $category['Item'][$i]['item'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Item'][$i]['item']);
 
 															}else{
 
@@ -80,8 +79,8 @@
 
 															} ?>
 <td><?php echo $this->Html->link($display, array('controller' => 'items', 'action' => 'view', $category['Item'][$i]['id'])); ?></td>
-			<?php if(strtotime($category['Item'][$i]['lowest_price']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['lowest_price'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['lowest_price']);
+			<?php if(strtotime($category['Item'][$i]['lowest_price']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $category['Item'][$i]['lowest_price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Item'][$i]['lowest_price']);
 
 															}else{
 
@@ -89,8 +88,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-			<?php if(strtotime($category['Item'][$i]['highest_price']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['highest_price'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['highest_price']);
+			<?php if(strtotime($category['Item'][$i]['highest_price']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $category['Item'][$i]['highest_price'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Item'][$i]['highest_price']);
 
 															}else{
 
@@ -98,8 +97,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-			<?php if(strtotime($category['Item'][$i]['last_price_update']) && 1 === preg_match('~[0-9]~', $category['Item'][$i]['last_price_update'])){
-												    $display = $this->Time->format('F jS, Y h:i A', $category['Category']['last_price_update']);
+			<?php if(strtotime($category['Item'][$i]['last_price_update']) && 1 === preg_match('/^\d{4}-\d{2}-\d{2} [0-2][0-3]:[0-5][0-9]:[0-5][0-9]$/', $category['Item'][$i]['last_price_update'])){
+												    $display = $this->Time->format('F jS, Y h:i A', $category['Item'][$i]['last_price_update']);
 
 															}else{
 
@@ -107,8 +106,8 @@
 
 															} ?>
 <td><?php echo $display; ?></td>
-<?php $i++; ?>		</tr>
-	<?php endforeach; ?>
+		</tr>
+<?php $i++; ?>	<?php endforeach; ?>
 							</tbody>
 						</table><!-- /.table table-striped table-bordered -->
 					</div><!-- /.table-responsive -->
