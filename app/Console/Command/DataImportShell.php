@@ -23,6 +23,11 @@ class DataImportShell extends AppShell {
 
 	}
 
+	/**
+	 * Resets database and imports all data onto a clean dataset
+	 *
+	 * @return void
+	 */
 	public function all() {
 		$this->resetDb();
 		$this->categories();
@@ -32,10 +37,20 @@ class DataImportShell extends AppShell {
 		$this->entries();
 	}
 
+	/**
+	 * (Re)create empty database schema
+	 *
+	 * @return void
+	 */
 	public function resetDb() {
 	    $this->dispatchShell('schema create -q');
 	}
 
+	/**
+	 * Imports categories from file found at APP . "Console/Command/data_import/price_sheet.csv"
+	 *
+	 * @return void
+	 */
 	public function categories()
 	{
 		$this->out("\n----------------- Importing Categories -----------------");
@@ -57,6 +72,11 @@ class DataImportShell extends AppShell {
 		$category->saveAll($categories);
 	}
 
+	/**
+	 * Saves the hard coded list of stores to the database
+	 *
+	 * @return void
+	 */
 	public function stores() {
 		$this->out("\n----------------- Importing Stores -----------------");
 		$stores = array(
@@ -106,6 +126,11 @@ class DataImportShell extends AppShell {
 		$store->saveAll($stores);
 	}
 
+	/**
+	 * Imports items from file found at APP . "Console/Command/data_import/price_sheet.csv"
+	 *
+	 * @return void
+	 */
 	public function items() {
 		$this->out("\n----------------- Importing Items -----------------");
 		$price_sheet = $this->getPriceSheet();
@@ -138,6 +163,11 @@ class DataImportShell extends AppShell {
 		$item->saveAll($items);
 	}
 
+	/**
+	 * Imports units from file found at APP . "Console/Command/data_import/price_sheet.csv"
+	 *
+	 * @return void
+	 */
 	public function units() {
 		$this->out("\n----------------- Importing Units -----------------");
 		$price_sheet = $this->getPriceSheet();
@@ -159,6 +189,11 @@ class DataImportShell extends AppShell {
 		$unit->saveAll($units);
 	}
 
+	/**
+	 * Imports entries from file found at APP . "Console/Command/data_import/price_sheet.csv"
+	 *
+	 * @return void
+	 */
 	public function entries() {
 		$this->out("\n----------------- Importing Entries -----------------");
 		$price_sheet = $this->getPriceSheet();
@@ -186,7 +221,6 @@ class DataImportShell extends AppShell {
 		$unit_price_column = $this->getColumnIndex('unit-price');
 
 		foreach ($price_sheet as $row) {
-			// Bakery,Bread (store brand whole wheat),1,loaf,$1.29,Aldi,$1.58,$1.29,$2.89,p,p,,p,,,
 			$item = $row[$item_column];
 			$item_id = $this->getItemIdForLabel($item);
 			$unit_id = $this->getUnitIdForLabel($row[$unit_column]);
@@ -224,6 +258,13 @@ class DataImportShell extends AppShell {
 		$entry->saveAll($entries);
 	}
 
+	/**
+	 * Reads the csv price sheet found at APP . "Console/Command/data_import/price_sheet.csv" 
+	 * into an array and sets $this->price_sheet, and then returns $this->price_sheet.
+	 * If $this->price_sheet already exists it just returns the array.
+	 *
+	 * @return array
+	 */
 	private function getPriceSheet() {
 		if (empty($this->price_sheet)) {
 			if (($handle = fopen(APP . "Console/Command/data_import/price_sheet.csv", "r")) !== FALSE) {
@@ -245,6 +286,11 @@ class DataImportShell extends AppShell {
 		return $this->price_sheet;
 	}
 
+	/**
+	 * If $this->categories is not already set it is set to be Category::find('list')
+	 *
+	 * @return void
+	 */
 	private function readCategories() {
 		if(empty($this->categories)) {
 			$category = ClassRegistry::init('Category');
@@ -252,6 +298,13 @@ class DataImportShell extends AppShell {
 		}
 	}
 
+	/**
+	 * Given a label the id for that category is returned
+	 *
+	 * @throws Exception if the category does not exist
+	 * @param  string    $label
+	 * @return int
+	 */
 	private function getCategoryIdForLabel($label) {
 		$this->readCategories();
 		$category_id = array_search($label, $this->categories);
@@ -263,6 +316,11 @@ class DataImportShell extends AppShell {
 		return $category_id;
 	}
 
+	/**
+	 * If $this->stores is not already set it is set to be Store::find('list')
+	 *
+	 * @return void
+	 */
 	private function readStores() {
 		if (empty($this->stores)) {
 			$store = ClassRegistry::init('Store');
@@ -270,6 +328,11 @@ class DataImportShell extends AppShell {
 		}
 	}
 
+	/**
+	 * If $this->store_slugs is not already set it is set to be Store::find('list', array('fields' => array('id', 'slug')))
+	 *
+	 * @return void
+	 */
 	private function readStoreSlugs() {
 		if (empty($this->store_slugs)) {
 			$store = ClassRegistry::init('Store');
@@ -277,6 +340,11 @@ class DataImportShell extends AppShell {
 		}
 	}
 
+	/**
+	 * Given a slug returns the store id
+	 *
+	 * @return int
+	 */
 	private function getStoreIdForSlug($slug) {
 		$this->readStoreSlugs();
 		$store_id = array_search($slug, $this->store_slugs);
@@ -288,6 +356,13 @@ class DataImportShell extends AppShell {
 		return $store_id;
 	}
 
+	/**
+	 * given a label returns the column index for price_sheet.csv
+	 *
+	 * @throws Exception for invalid column
+	 * @param  string    $label
+	 * @return int
+	 */
 	private function getColumnIndex($label) {
 		$column_index = array_search($label, $this->columns);
 
@@ -298,6 +373,11 @@ class DataImportShell extends AppShell {
 		return $column_index;
 	}
 
+	/**
+	 * If $this->units is not already set it is set to be Unit::find('list')
+	 *
+	 * @return void
+	 */
 	private function readUnits() {
 		if (empty($this->units)) {
 			$unit = ClassRegistry::init('Unit');
@@ -305,6 +385,11 @@ class DataImportShell extends AppShell {
 		}
 	}
 
+	/**
+	 * If $this->items is not already set it is set to be Item::find('list')
+	 *
+	 * @return void
+	 */
 	private function readItems() {
 		if (empty($this->items)) {
 			$item = ClassRegistry::init('Item');
@@ -312,6 +397,13 @@ class DataImportShell extends AppShell {
 		}
 	}
 
+	/**
+	 * Given a label returns an item id
+	 *
+	 * @throws exception for invalid label 
+	 * @param  string $label
+	 * @return int
+	 */
 	private function getItemIdForLabel($label) {
 		$this->readItems();
 		$item_id = array_search($label, $this->items);
@@ -323,12 +415,19 @@ class DataImportShell extends AppShell {
 		return $item_id;
 	}
 
+	/**
+	 * Given a label returns a unit id
+	 *
+	 * @throws exception for invalid label 
+	 * @param  string $label
+	 * @return int
+	 */
 	private function getUnitIdForLabel($label) {
 		$this->readUnits();
 		$unit_id = array_search($label, $this->units);
 
 		if ($unit_id === false) {
-			return null;
+			throw new Exception ("Unknown unit: $label");
 		}
 
 		return $unit_id;
