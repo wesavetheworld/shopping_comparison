@@ -24,14 +24,14 @@
 					<thead>
 						<tr>
 							<th><?php echo $this->Paginator->sort('name'); ?></th>
-							<th><?php echo $this->Paginator->sort('location'); ?></th>
+							<th><?php echo $this->Paginator->sort('slug'); ?></th>
 									</tr>
 					</thead>
 					<tbody>
 <?php foreach ($stores as $store): ?>
 	<tr>
 		<td><?php echo $this->Html->link($store['Store']['name'], array('action' => 'view', $store['Store']['id'])); ?>&nbsp;</td>
-		<td><?php echo h($store['Store']['location']);?>&nbsp;</td>
+		<td><?php echo h($store['Store']['slug']);?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 					</tbody>

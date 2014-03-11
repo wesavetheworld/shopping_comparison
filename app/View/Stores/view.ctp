@@ -33,9 +33,9 @@
 			<?php echo h($store['Store']['name']); ?>
 			&nbsp;
 		</td>
-</tr><tr>		<td><strong><?php echo __('Location'); ?></strong></td>
+</tr><tr>		<td><strong><?php echo __('Slug'); ?></strong></td>
 		<td>
-			<?php echo h($store['Store']['location']); ?>
+			<?php echo h($store['Store']['slug']); ?>
 			&nbsp;
 		</td>
 </tr><tr>		<td><strong><?php echo __('Created'); ?></strong></td>
